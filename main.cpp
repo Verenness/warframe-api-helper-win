@@ -99,6 +99,20 @@ int main()
 	SOUP_IF_UNLIKELY (!res)
 	{
 		std::cout << "Request failed." << std::endl;
+		std::cout << "URL: " << hr.getUrl() << std::endl;
+		std::cout << "Could not connect to the server. Check your internet connection." << std::endl;
+#if SOUP_WINDOWS
+		system("pause > nul");
+#endif
+		return 5;
+	}
+	SOUP_IF_UNLIKELY (res->status_code < 200 || res->status_code >= 300)
+	{
+		std::cout << "HTTP " << res->status_code << " " << res->status_text << std::endl;
+		if (!res->body.empty())
+		{
+			std::cout << "Response body: " << res->body << std::endl;
+		}
 #if SOUP_WINDOWS
 		system("pause > nul");
 #endif
